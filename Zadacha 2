@@ -1,0 +1,54 @@
+#include <iostream>
+#include <algorithm>
+#include <set>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
+#include <iterator>
+
+using namespace std;
+
+int main() {
+	setlocale(LC_ALL, "Russian");
+	string str, str1;
+	stringstream ss;
+	set <int> set1, set2, set3, set4;
+	set <int>::iterator p;
+	int value;
+	cout << "Введите имя для первого файла" << endl;
+	cin >> str;
+	ifstream file1(str);
+	cout << "Введите имя для второго файла" << endl;
+	cin >> str1;
+	ifstream file2(str1);
+	if (file1 && file2) {
+		getline(file1, str);
+		ss << str;
+		while (ss) {
+			ss >> value;
+			set1.emplace(value);
+		}
+		ss.clear();
+		getline(file2, str1);
+		ss << str1;
+		while (ss) {
+			ss >> value;
+			set2.emplace(value);
+		}
+		ss.clear();	
+	}
+	for (p = set1.begin(); p != set1.end(); p++)
+		cout << *p << " ";
+	cout << endl;
+	for (p = set2.begin(); p != set2.end(); p++)
+		cout << *p << " ";
+	cout << endl;
+	set_difference(set1.begin(), set1.end(), set2.begin(), set2.end(), inserter(set3, set3.begin()));
+	set_union(set1.begin(), set1.end(), set2.begin(), set2.end(), inserter(set4, set4.begin()));
+	cout << "В множестве A - ";
+	for (p = set3.begin(); p != set3.end(); p++)
+		cout << *p << " ";
+	cout << "Объединение двух множеств - ";
+	for (p = set4.begin(); p != set4.end(); p++)
+		cout << *p << " ";
+}
